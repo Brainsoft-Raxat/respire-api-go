@@ -9,6 +9,7 @@ import (
 	"github.com/Brainsoft-Raxat/respire-api-go/config"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/app/connection"
 	handler "github.com/Brainsoft-Raxat/respire-api-go/internal/handler/http"
+	middleware2 "github.com/Brainsoft-Raxat/respire-api-go/internal/middleware"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/repository"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/service"
 	"github.com/labstack/echo/v4"
@@ -34,7 +35,9 @@ func Run() error {
 		sugar.Errorf("error initializing connections: %v", err)
 		return err
 	}
-	
+
+	middleware2.FirebaseApp = conn.Firebase
+
 	defer conn.Close()
 
 	repos := repository.New(conn, cfg, sugar)
