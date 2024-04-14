@@ -1,6 +1,7 @@
 package config
 
 import (
+	"strings"
 	"time"
 
 	"github.com/creasty/defaults"
@@ -8,24 +9,29 @@ import (
 )
 
 type Configs struct {
-	App      *AppConfig `json:"app"`
-	Firebase *Firebase  `json:"firebase"`
+	App      *AppConfig `mapstructure:"app" json:"app"`
+	Firebase *Firebase  `mapstructure:"firebase" json:"firebase"`
 }
 
 type AppConfig struct {
-	Timeout time.Duration `json:"timeout" default:"60s"`
-	Port    string        `json:"port"`
-	Host    string        `json:"host"`
+	Timeout time.Duration `mapstructure:"timeout" json:"timeout" default:"60s"`
+	Port    string        `mapstructure:"port" json:"port"`
+	Host    string        `mapstructure:"host" json:"host"`
+	Env     string        `mapstructure:"env" json:"env"`
 }
 
 type Firebase struct {
-	ProjectID string `json:"project_id"`
+	ProjectID string `mapstructure:"project_id" json:"project_id"`
 }
 
 func New() (*Configs, error) {
 	configFile := "config/config.yaml"
 
 	viper.SetConfigFile(configFile)
+	viper.AutomaticEnv()
+
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
 	}

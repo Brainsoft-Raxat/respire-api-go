@@ -2,7 +2,7 @@ package connection
 
 import (
 	"context"
-	"log"
+	"fmt"
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
@@ -17,16 +17,23 @@ type Connection struct {
 
 func New(cfg *config.Configs) (*Connection, error) {
 	ctx := context.Background()
+	var firebaseApp *firebase.App
+	var err error
 
-	sa := option.WithCredentialsFile("quitsmoke-20141-firebase-adminsdk-ugo14-c5730ea21d.json")
-	firebaseApp, err := firebase.NewApp(ctx, nil, sa)
+	if cfg.App.Env != "local" {
+		firebaseApp, err = firebase.NewApp(ctx, nil)
+	} else {
+		sa := option.WithCredentialsFile("quitsmoke-20141-firebase-adminsdk-ugo14-c5730ea21d.json")
+		firebaseApp, err = firebase.NewApp(ctx, nil, sa)
+	}
+
 	if err != nil {
-		log.Fatalln(err)
+		return nil, fmt.Errorf("failed to initialize Firebase app: %v", err)
 	}
 
 	firestoreClient, err := firebaseApp.Firestore(ctx)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, fmt.Errorf("failed to create Firestore client: %v", err)
 	}
 
 	return &Connection{
