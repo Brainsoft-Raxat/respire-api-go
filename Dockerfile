@@ -1,21 +1,12 @@
+# Use an official Golang runtime as a parent image
 FROM golang:1.21-alpine as builder
 
-WORKDIR /app
+RUN go version
+ENV GOPATH=/
 
-COPY go.mod go.sum ./
+COPY ./ ./
 
 RUN go mod download
-
-COPY . .
-
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main ./cmd/app/main.go
-
-FROM alpine:latest
-
-WORKDIR /root/
-
-COPY --from=builder /app/main .
-
-EXPOSE 8080
+RUN go build -o main ./cmd/app/main.go
 
 CMD ["./main"]
