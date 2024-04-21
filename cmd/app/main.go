@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/Brainsoft-Raxat/respire-api-go/internal/app"
 	_ "github.com/Brainsoft-Raxat/respire-api-go/docs"
+	"github.com/Brainsoft-Raxat/respire-api-go/internal/app"
 )
-
 
 // @title           Swagger Example API
 // @version         1.0
@@ -18,7 +17,7 @@ import (
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:8080
+// @host      respire-api-go-jc4tvs5hja-ey.a.run.app
 // @BasePath  /api/v1
 
 // @securityDefinitions.apikey BearerAuth
