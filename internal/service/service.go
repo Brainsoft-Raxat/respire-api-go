@@ -12,41 +12,34 @@ import (
 
 type UserService interface {
 	CreateUser(ctx context.Context, req data.CreateUserRequest) (data.CreateUserResponse, error)
-	GetUserByID(ctx context.Context, id string) (*models.User, error)
+	GetUserByID(ctx context.Context, req data.GetUserByIDRequest) (data.GetUserByIDResponse, error)
 	GetUserByEmail(ctx context.Context, email string) (*models.User, error)
-	UpdateUser(ctx context.Context, id string, user *models.User) error
+	SearchUsersByUsername(ctx context.Context, req data.SearchUsersByUsernameRequest) (data.SearchUsersByUsernameResponse, error)
+	UpdateUser(ctx context.Context, id string, req data.UpdateUserRequest) (data.UpdateUserResponse, error)
 	DeleteUser(ctx context.Context, id string) error
 }
 
 type FriendshipService interface {
-	CreateFriendshipInvitation(ctx context.Context, friendID string) error
-	HandleFriendshipInvitation(ctx context.Context, invitationID string, accept bool) error
-	GetFriendshipInvitations(ctx context.Context) ([]*models.Invitation, error)
-	GetFriendsList(ctx context.Context) ([]*models.Friend, error)
-	DeleteFriendship(ctx context.Context, friendID string) error
-}
+	CreateFriendshipInvitation(ctx context.Context, req data.CreateFriendshipInvitationRequest) (data.CreateFriendshipInvitationResponse, error)
+	GetFriendshipInvitations(ctx context.Context, req data.GetFriendshipInvitationsRequest) (data.GetFriendshipInvitationsResponse, error)
+	GetFriendsList(ctx context.Context, req data.GetFriendsListRequest) (data.GetFriendsListResponse, error)
 
-type FriendsGroupService interface {
-	CreateFriendsGroup(ctx context.Context, req models.CreateFriendsGroupRequest) error
-	GetFriendsGroups(ctx context.Context) ([]*models.FriendsGroup, error)
-	GetFriendsGroupByID(ctx context.Context, id string) (*models.FriendsGroup, error)
-	UpdateFriendsGroup(ctx context.Context, id string, req models.UpdateFriendsGroupRequest) error
-	DeleteFriendsGroup(ctx context.Context, id string) error
-
-	GetFriendsGroupInvitations(ctx context.Context) ([]*models.FriendsGroupInvitation, error)
-	HandleFriendsGroupInvitation(ctx context.Context, id string, accept bool) error
+	HandleFriendshipInvitation(ctx context.Context, req data.HandleFriendshipInvitationRequest) (data.HandleFriendshipInvitationResponse, error)
+	RemoveFriend(ctx context.Context, req data.RemoveFriendRequest) (data.RemoveFriendResponse, error)
+	// HandleFriendshipInvitation(ctx context.Context, invitationID string, accept bool) error
+	// GetFriendshipInvitations(ctx context.Context) ([]*models.Invitation, error)
+	// // GetFriendsList(ctx context.Context) ([]*models.ShortUser, error)
+	// DeleteFriendship(ctx context.Context, friendID string) error
 }
 
 type Service struct {
 	UserService
 	FriendshipService
-	FriendsGroupService
 }
 
 func New(repos *repository.Repository, cfg *config.Configs, logger *zap.SugaredLogger) *Service {
 	return &Service{
-		UserService:         NewUserService(repos, cfg, logger),
-		FriendshipService:   NewFriendshipService(repos, cfg, logger),
-		FriendsGroupService: NewFriendsGroupService(repos, cfg, logger),
+		UserService:       NewUserService(repos, cfg, logger),
+		FriendshipService: NewFriendshipService(repos, cfg, logger),
 	}
 }

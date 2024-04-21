@@ -1,0 +1,489 @@
+basePath: /api/v1
+definitions:
+  data.CreateFriendshipInvitationRequest:
+    properties:
+      friend_id:
+        type: string
+    type: object
+  data.CreateFriendshipInvitationResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  data.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  data.CreateUserResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  data.GetFriendsListResponse:
+    properties:
+      friends:
+        items:
+          $ref: '#/definitions/models.ShortUser'
+        type: array
+    type: object
+  data.GetFriendshipInvitationsResponse:
+    properties:
+      invitations:
+        items:
+          $ref: '#/definitions/models.Invitation'
+        type: array
+    type: object
+  data.GetUserByIDResponse:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      friends:
+        type: integer
+      id:
+        type: string
+      longest_streak:
+        type: integer
+      name:
+        type: string
+      quite_date:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  data.HandleFriendshipInvitationRequest:
+    properties:
+      accept:
+        type: boolean
+      invitation_id:
+        type: string
+    type: object
+  data.HandleFriendshipInvitationResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  data.RemoveFriendResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  data.SearchUsersByUsernameResponse:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/models.ShortUser'
+        type: array
+    type: object
+  data.UpdateUserRequest:
+    properties:
+      avatar:
+        type: string
+      name:
+        type: string
+      quit_date:
+        type: string
+      username:
+        description: "Email\t string `json:\"email\"`"
+        type: string
+    type: object
+  data.UpdateUserResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  models.Invitation:
+    properties:
+      from_user_id:
+        type: string
+      id:
+        type: string
+      sent_date:
+        type: string
+      status:
+        type: string
+      to_user_id:
+        type: string
+    type: object
+  models.ShortUser:
+    properties:
+      avatar:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+  models.User:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      longest_streak:
+        type: integer
+      name:
+        type: string
+      quite_date:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /friends:
+    get:
+      consumes:
+      - application/json
+      description: Get friends list by user ID
+      parameters:
+      - description: User ID (optional)
+        in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetFriendsListResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get friends list
+      tags:
+      - friends
+  /friends/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove friend
+      parameters:
+      - description: Friend ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.RemoveFriendResponse'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Remove friend
+      tags:
+      - friends
+  /friends/invitations:
+    get:
+      consumes:
+      - application/json
+      description: Get friendship invitations
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetFriendshipInvitationsResponse'
+        "400":
+          description: Invalid limit or page
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get friendship invitations
+      tags:
+      - friends
+    post:
+      consumes:
+      - application/json
+      description: Create friendship invitation
+      parameters:
+      - description: Create Friendship Invitation Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/data.CreateFriendshipInvitationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.CreateFriendshipInvitationResponse'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create friendship invitation
+      tags:
+      - friends
+  /friends/invitations/handle:
+    post:
+      consumes:
+      - application/json
+      description: Handle friendship invitation
+      parameters:
+      - description: Handle Friendship Invitation Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/data.HandleFriendshipInvitationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.HandleFriendshipInvitationResponse'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Handle friendship invitation
+      tags:
+      - friends
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/data.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/data.CreateUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create a new user
+      tags:
+      - users
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a user by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetUserByIDResponse'
+        "404":
+          description: User not found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update a user by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/data.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.UpdateUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update a user
+      tags:
+      - users
+  /user/by-email/{email}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a user by their email
+      parameters:
+      - description: User email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: User not found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user by email
+      tags:
+      - users
+  /user/search:
+    get:
+      consumes:
+      - application/json
+      description: Search users by username
+      parameters:
+      - description: Username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.SearchUsersByUsernameResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Search users by username
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

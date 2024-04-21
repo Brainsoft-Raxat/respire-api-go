@@ -46,7 +46,6 @@ func Run() error {
 
 	e := echo.New()
 
-	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 

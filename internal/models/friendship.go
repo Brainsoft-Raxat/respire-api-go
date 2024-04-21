@@ -3,13 +3,8 @@ package models
 import "time"
 
 type Friendship struct {
-	ID    string    `json:"id" firestore:"-"`
-	Users []string  `json:"users" firestore:"users"`
-	Since time.Time `json:"since" firestore:"since"`
-}
-
-type Friend struct {
-	ID    string    `json:"id"`
-	Name  string    `json:"name"`
-	Since time.Time `json:"since"`
+	ID       string    `json:"id" firestore:"-"`
+	UserID   string    `json:"user_id" firestore:"user_id"`
+	FriendID string    `json:"friend_id" firestore:"friend_id"`
+	Since    time.Time `json:"since" firestore:"since"`
 }
