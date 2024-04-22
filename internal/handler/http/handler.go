@@ -11,7 +11,7 @@ import (
 	"github.com/Brainsoft-Raxat/respire-api-go/pkg/ctxconst"
 	"github.com/Brainsoft-Raxat/respire-api-go/pkg/errcodes"
 	"github.com/labstack/echo/v4"
-	"github.com/swaggo/echo-swagger"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"go.uber.org/zap"
 )
 
@@ -60,6 +60,16 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			friends.POST("/invitations/handle", h.HandleFriendshipInvitation)
 			friends.GET("", h.GetFriendsList)
 			friends.DELETE("/:id", h.RemoveFriend)
+		}
+
+		sessions := api.Group("/sessions")
+		{
+			sessions.POST("", h.CreateSession)
+			sessions.GET("/:id", h.GetSessionByID)
+			sessions.GET("/:uid", h.GetSessionByUserID)
+			sessions.PUT("/:id", h.UpdateSession)
+			sessions.DELETE("/:id", h.DeleteSession)
+			sessions.GET("/:uid/:time", h.GetSessionByTime)
 		}
 
 		api.GET("", h.handleExample)

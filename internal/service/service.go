@@ -31,15 +31,25 @@ type FriendshipService interface {
 	// // GetFriendsList(ctx context.Context) ([]*models.ShortUser, error)
 	// DeleteFriendship(ctx context.Context, friendID string) error
 }
+type SessionService interface {
+	CreateSession(ctx context.Context, req data.CreateSessionRequest) (data.CreateSessionResponse, error)
+	GetSessionByID(ctx context.Context, req data.GetSessionByIDRequest) (data.GetSessionByIDResponse, error)
+	GetSessionByUserID(ctx context.Context, req data.GetSessionByUserIDRequest) (data.GetSessionByUserIDResponse, error)
+	UpdateSession(ctx context.Context, id string, req data.UpdateSessionRequest) (data.UpdateSessionResponse, error)
+	DeleteSession(ctx context.Context, id string) error
+	GetSessionsByUserIDAndDateRange(ctx context.Context, req data.GetSessionByUserIDAndDateRequest) (data.GetSessionByUserIDAndDateResponse, error)
+}
 
 type Service struct {
 	UserService
 	FriendshipService
+	SessionService
 }
 
 func New(repos *repository.Repository, cfg *config.Configs, logger *zap.SugaredLogger) *Service {
 	return &Service{
 		UserService:       NewUserService(repos, cfg, logger),
 		FriendshipService: NewFriendshipService(repos, cfg, logger),
+		SessionService:    NewSessionService(repos, cfg, logger),
 	}
 }

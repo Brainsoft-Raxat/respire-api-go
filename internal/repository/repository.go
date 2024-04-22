@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"time"
 
 	"github.com/Brainsoft-Raxat/respire-api-go/config"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/app/connection"
@@ -13,6 +14,7 @@ type Repository struct {
 	UserRepository
 	InvitationRepository
 	FriendshipRepository
+	SessionRepository
 }
 
 type UserRepository interface {
@@ -46,6 +48,15 @@ type FriendshipRepository interface {
 	AreFriends(ctx context.Context, userID1 string, userID2 string) (bool, error)
 }
 
+type SessionRepository interface {
+	CreateSession(ctx context.Context, user *models.SmokeSession) (string, error)
+	GetSessionByID(ctx context.Context, id string) (*models.SmokeSession, error)
+	GetSessionsByUserID(ctx context.Context, id string) (SessionsInfo, error)
+	GetSessionsByUserIDAndDateRange(ctx context.Context, username string, ti [2]time.Time) (SessionsInfo, error)
+	UpdateSession(ctx context.Context, excludeID string, ses *models.SmokeSession) error
+	DeleteSession(ctx context.Context, id string) error
+}
+
 type ChallengeRepository interface{}
 
 type TaskRepository interface{}
@@ -55,5 +66,6 @@ func New(conn *connection.Connection, cfg *config.Configs, logger *zap.SugaredLo
 		UserRepository:       NewUserRepository(conn.Firestore, cfg.Firebase, logger),
 		InvitationRepository: NewInvitationRepository(conn.Firestore, cfg.Firebase, logger),
 		FriendshipRepository: NewFriendshipRepository(conn.Firestore, cfg.Firebase, logger),
+		SessionRepository:    NewSessionRepository(conn.Firestore, cfg.Firebase, logger),
 	}
 }
