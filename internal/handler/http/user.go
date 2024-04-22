@@ -14,7 +14,7 @@ import (
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param id path string true "User ID"
+// @Param id path string false "User ID"
 // @Success 200 {object} data.GetUserByIDResponse
 // @Failure 404 {string} string "User not found"
 // @Security BearerAuth

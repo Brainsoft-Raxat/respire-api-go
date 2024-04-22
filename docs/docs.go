@@ -405,8 +405,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "User ID",
                         "name": "id",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     }
                 ],
                 "responses": {

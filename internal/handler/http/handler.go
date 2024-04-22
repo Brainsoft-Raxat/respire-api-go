@@ -47,6 +47,7 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			user.POST("", h.CreateUser)
 			user.GET("/search", h.SearchUserByUsername)
 			user.GET("/:id", h.GetUserByID)
+			user.GET("", h.GetUserByID)
 			user.PUT("/:id", h.UpdateUser)
 			user.DELETE("/:id", h.DeleteUser)
 			user.GET("/by-email/:email", h.GetUserByEmail)

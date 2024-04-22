@@ -31,6 +31,10 @@ func NewUserService(repo *repository.Repository, cfg *config.Configs, logger *za
 }
 
 func (s *userService) GetUserByID(ctx context.Context, req data.GetUserByIDRequest) (data.GetUserByIDResponse, error) {
+	if req.ID == "" {
+		req.ID = ctxconst.GetUserID(ctx)
+	}
+
 	user, err := s.userRepo.GetUserByID(ctx, req.ID)
 	if err != nil {
 		return data.GetUserByIDResponse{}, err
