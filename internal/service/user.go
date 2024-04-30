@@ -56,6 +56,9 @@ func (s *userService) GetUserByEmail(ctx context.Context, email string) (*models
 }
 
 func (s *userService) DeleteUser(ctx context.Context, id string) error {
+	if id == "" {
+		id = ctxconst.GetUserID(ctx)
+	}
 	return s.userRepo.DeleteUser(ctx, id)
 }
 
@@ -79,6 +82,10 @@ func (s *userService) CreateUser(ctx context.Context, req data.CreateUserRequest
 }
 
 func (s *userService) UpdateUser(ctx context.Context, id string, req data.UpdateUserRequest) (data.UpdateUserResponse, error) {
+	if id == "" {
+		id = ctxconst.GetUserID(ctx)
+	}
+
 	user, err := s.userRepo.GetUserByID(ctx, id)
 	if err != nil {
 		return data.UpdateUserResponse{}, err

@@ -40,10 +40,19 @@ type SessionService interface {
 	GetSessionsByUserIDAndDateRange(ctx context.Context, req data.GetSessionByUserIDAndDateRequest) (data.GetSessionByUserIDAndDateResponse, error)
 }
 
+type ChallengeService interface{
+	CreateChallenge(ctx context.Context, req data.CreateChallengeRequest) (data.CreateChallengeResponse, error)
+	GetChallengeByID(ctx context.Context, req data.GetChallengeByIDRequest) (data.GetChallengeByIDResponse, error)
+	GetChallengesByUserID(ctx context.Context, req data.GetChallengesByUserIDRequest) (data.GetChallengesByUserIDResponse, error)
+	UpdateChallengeByID(ctx context.Context, req data.UpdateChallengeRequest) (data.UpdateChallengeResponse, error)
+	DeleteChallengeByID(ctx context.Context, req data.GetChallengeByIDRequest) error
+}
+
 type Service struct {
 	UserService
 	FriendshipService
 	SessionService
+	ChallengeService
 }
 
 func New(repos *repository.Repository, cfg *config.Configs, logger *zap.SugaredLogger) *Service {
@@ -51,5 +60,6 @@ func New(repos *repository.Repository, cfg *config.Configs, logger *zap.SugaredL
 		UserService:       NewUserService(repos, cfg, logger),
 		FriendshipService: NewFriendshipService(repos, cfg, logger),
 		SessionService:    NewSessionService(repos, cfg, logger),
+		ChallengeService: NewChallengeService(repos, cfg, logger),
 	}
 }

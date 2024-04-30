@@ -49,7 +49,9 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			user.GET("/:id", h.GetUserByID)
 			user.GET("", h.GetUserByID)
 			user.PUT("/:id", h.UpdateUser)
+			user.PUT("", h.UpdateUser)
 			user.DELETE("/:id", h.DeleteUser)
+			user.DELETE("", h.DeleteUser)
 			user.GET("/by-email/:email", h.GetUserByEmail)
 		}
 
@@ -70,6 +72,16 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			sessions.PUT("/:id", h.UpdateSession)
 			sessions.DELETE("/:id", h.DeleteSession)
 			sessions.GET("/:uid/:time", h.GetSessionByTime)
+		}
+
+		challenge := api.Group("/challenge")
+		{
+			challenge.POST("", h.CreateChallenge)
+			challenge.GET("/:id", h.GetChallengeByID)
+			challenge.GET("/user", h.GetChallengesByUserID)
+			challenge.GET("/user/:id", h.GetChallengesByUserID)
+			challenge.PUT("/:id", h.UpdateChallengeByID)
+			challenge.DELETE("/:id", h.DeleteChallengeByID)
 		}
 
 		api.GET("", h.handleExample)

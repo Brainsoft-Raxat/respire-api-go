@@ -15,6 +15,7 @@ type Repository struct {
 	InvitationRepository
 	FriendshipRepository
 	SessionRepository
+	ChallengeRepository
 }
 
 type UserRepository interface {
@@ -57,7 +58,13 @@ type SessionRepository interface {
 	DeleteSession(ctx context.Context, id string) error
 }
 
-type ChallengeRepository interface{}
+type ChallengeRepository interface {
+	CreateChallenge(ctx context.Context, challenge *models.Challenge) (string, error)
+	GetChallengeByID(ctx context.Context, challengeID string) (*models.Challenge, error)
+	GetChallengesByUserID(ctx context.Context, userID, challengeType string, invite bool, limit, page int, from, to time.Time) ([]*models.Challenge, error)
+	UpdateChallenge(ctx context.Context, id string, challenge *models.Challenge) error
+	DeleteChallenge(ctx context.Context, id string) error
+}
 
 type TaskRepository interface{}
 
@@ -67,5 +74,6 @@ func New(conn *connection.Connection, cfg *config.Configs, logger *zap.SugaredLo
 		InvitationRepository: NewInvitationRepository(conn.Firestore, cfg.Firebase, logger),
 		FriendshipRepository: NewFriendshipRepository(conn.Firestore, cfg.Firebase, logger),
 		SessionRepository:    NewSessionRepository(conn.Firestore, cfg.Firebase, logger),
+		ChallengeRepository:  NewChallengeRepository(conn.Firestore, cfg.Firebase, logger),
 	}
 }

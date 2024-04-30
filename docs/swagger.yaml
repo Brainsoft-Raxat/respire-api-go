@@ -1,5 +1,31 @@
 basePath: /api/v1
 definitions:
+  data.CreateChallengeRequest:
+    properties:
+      cigarettes_limit:
+        type: integer
+      description:
+        type: string
+      end_date:
+        type: string
+      invited:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      penalty:
+        type: integer
+      prize:
+        type: string
+      type:
+        type: string
+    type: object
+  data.CreateChallengeResponse:
+    properties:
+      id:
+        type: string
+    type: object
   data.CreateFriendshipInvitationRequest:
     properties:
       friend_id:
@@ -12,6 +38,20 @@ definitions:
       status:
         type: integer
     type: object
+  data.CreateSessionRequest:
+    properties:
+      count:
+        type: integer
+      timestamp:
+        type: string
+      uid:
+        type: string
+    type: object
+  data.CreateSessionResponse:
+    properties:
+      id:
+        type: string
+    type: object
   data.CreateUserRequest:
     properties:
       email:
@@ -23,6 +63,42 @@ definitions:
     properties:
       id:
         type: string
+    type: object
+  data.GetChallengeByIDResponse:
+    properties:
+      cigarettes_limit:
+        type: integer
+      description:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: string
+      invited:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      owner_id:
+        type: string
+      participants:
+        items:
+          type: string
+        type: array
+      penalty:
+        type: integer
+      prize:
+        type: string
+      type:
+        type: string
+    type: object
+  data.GetChallengesByUserIDResponse:
+    properties:
+      challenges:
+        items:
+          $ref: '#/definitions/models.Challenge'
+        type: array
     type: object
   data.GetFriendsListResponse:
     properties:
@@ -37,6 +113,16 @@ definitions:
         items:
           $ref: '#/definitions/models.Invitation'
         type: array
+    type: object
+  data.GetSessionByIDResponse:
+    properties:
+      session:
+        $ref: '#/definitions/models.SmokeSession'
+    type: object
+  data.GetSessionByUserIDResponse:
+    properties:
+      sum:
+        type: integer
     type: object
   data.GetUserByIDResponse:
     properties:
@@ -91,6 +177,42 @@ definitions:
           $ref: '#/definitions/models.ShortUser'
         type: array
     type: object
+  data.UpdateChallengeRequest:
+    properties:
+      cigarettes_limit:
+        type: integer
+      description:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: string
+      invited:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      penalty:
+        type: integer
+      prize:
+        type: string
+    type: object
+  data.UpdateChallengeResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  data.UpdateSessionRequest:
+    properties:
+      count:
+        type: integer
+    type: object
+  data.UpdateSessionResponse:
+    properties:
+      id:
+        type: string
+    type: object
   data.UpdateUserRequest:
     properties:
       avatar:
@@ -106,6 +228,35 @@ definitions:
   data.UpdateUserResponse:
     properties:
       id:
+        type: string
+    type: object
+  models.Challenge:
+    properties:
+      cigarettes_limit:
+        type: integer
+      description:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: string
+      invited:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      owner_id:
+        type: string
+      participants:
+        items:
+          type: string
+        type: array
+      penalty:
+        type: integer
+      prize:
+        type: string
+      type:
         type: string
     type: object
   models.Invitation:
@@ -130,6 +281,17 @@ definitions:
       name:
         type: string
       username:
+        type: string
+    type: object
+  models.SmokeSession:
+    properties:
+      count:
+        type: integer
+      id:
+        type: string
+      timestamp:
+        type: string
+      user_id:
         type: string
     type: object
   models.User:
@@ -172,6 +334,114 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /challenges:
+    post:
+      consumes:
+      - application/json
+      description: Create a challenge
+      parameters:
+      - description: Challenge object that needs to be created
+        in: body
+        name: challenge
+        required: true
+        schema:
+          $ref: '#/definitions/data.CreateChallengeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.CreateChallengeResponse'
+      summary: Create a challenge
+      tags:
+      - challenges
+  /challenges/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a challenge by ID
+      parameters:
+      - description: Challenge ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete a challenge by ID
+      tags:
+      - challenges
+    get:
+      consumes:
+      - application/json
+      description: Get a challenge by ID
+      parameters:
+      - description: Challenge ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetChallengeByIDResponse'
+      summary: Get a challenge by ID
+      tags:
+      - challenges
+    put:
+      consumes:
+      - application/json
+      description: Update a challenge by ID
+      parameters:
+      - description: Challenge ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Challenge object that needs to be updated
+        in: body
+        name: challenge
+        required: true
+        schema:
+          $ref: '#/definitions/data.UpdateChallengeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.UpdateChallengeResponse'
+      summary: Update a challenge by ID
+      tags:
+      - challenges
+  /challenges/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get challenges by user ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetChallengesByUserIDResponse'
+      summary: Get challenges by user ID
+      tags:
+      - challenges
   /friends:
     get:
       consumes:
@@ -310,6 +580,140 @@ paths:
       summary: Handle friendship invitation
       tags:
       - friends
+  /sessions:
+    post:
+      consumes:
+      - application/json
+      description: Create a session
+      parameters:
+      - description: Session object that needs to be created
+        in: body
+        name: session
+        required: true
+        schema:
+          $ref: '#/definitions/data.CreateSessionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.CreateSessionResponse'
+      summary: Create a session
+      tags:
+      - sessions
+  /sessions/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a session
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a session
+      tags:
+      - sessions
+    get:
+      consumes:
+      - application/json
+      description: Get a session by ID
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetSessionByIDResponse'
+      summary: Get a session by ID
+      tags:
+      - sessions
+    put:
+      consumes:
+      - application/json
+      description: Update a session
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Session object that needs to be updated
+        in: body
+        name: session
+        required: true
+        schema:
+          $ref: '#/definitions/data.UpdateSessionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.UpdateSessionResponse'
+      summary: Update a session
+      tags:
+      - sessions
+  /sessions/{uid}:
+    get:
+      consumes:
+      - application/json
+      description: Get a session by user ID
+      parameters:
+      - description: User ID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetSessionByUserIDResponse'
+      summary: Get a session by user ID
+      tags:
+      - sessions
+  /sessions/{uid}/{time}:
+    get:
+      consumes:
+      - application/json
+      description: Get a session by user ID and time
+      parameters:
+      - description: User ID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Time
+        in: path
+        name: time
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.GetSessionByUserIDResponse'
+      summary: Get a session by user ID and time
+      tags:
+      - sessions
   /user:
     post:
       consumes:
