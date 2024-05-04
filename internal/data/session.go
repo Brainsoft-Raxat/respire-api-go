@@ -33,8 +33,10 @@ type GetSessionByUserIDResponse struct {
 }
 
 type GetSessionByUserIDAndDateRequest struct {
-	ID string `json:"id"`
-	DR [2]time.Time
+	ID     string    `json:"id"`
+	Period string    `json:"period"`
+	Start  time.Time `json:"start"`
+	End    time.Time `json:"end"`
 }
 
 type GetSessionByUserIDAndDateResponse struct {

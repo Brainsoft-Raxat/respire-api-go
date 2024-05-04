@@ -2,11 +2,13 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/Brainsoft-Raxat/respire-api-go/config"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/data"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/models"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/repository"
+	"github.com/Brainsoft-Raxat/respire-api-go/pkg/ctxconst"
 	"go.uber.org/zap"
 )
 
@@ -38,6 +40,9 @@ func (s *sessionService) GetSessionByID(ctx context.Context, req data.GetSession
 }
 
 func (s *sessionService) GetSessionByUserID(ctx context.Context, req data.GetSessionByUserIDRequest) (data.GetSessionByUserIDResponse, error) {
+	if req.ID == "" {
+		req.ID = ctxconst.GetUserID(ctx)
+	}
 	sessions, err := s.SessionRepo.GetSessionsByUserID(ctx, req.ID)
 	if err != nil {
 		return data.GetSessionByUserIDResponse{}, err
@@ -49,7 +54,22 @@ func (s *sessionService) GetSessionByUserID(ctx context.Context, req data.GetSes
 }
 
 func (s *sessionService) GetSessionsByUserIDAndDateRange(ctx context.Context, req data.GetSessionByUserIDAndDateRequest) (data.GetSessionByUserIDAndDateResponse, error) {
-	sessions, err := s.SessionRepo.GetSessionsByUserIDAndDateRange(ctx, req.ID, req.DR)
+	if req.ID == "" {
+		req.ID = ctxconst.GetUserID(ctx)
+	}
+
+	var timeRange [2]time.Time
+	now := time.Now()
+	switch req.Period {
+	case "week":
+		timeRange = repository.GetWeek(now)
+	case "month":
+		timeRange = repository.GetMonth(now)
+	default:
+		timeRange[0] = req.Start
+		timeRange[1] = req.End
+	}
+	sessions, err := s.SessionRepo.GetSessionsByUserIDAndDateRange(ctx, req.ID, timeRange)
 	if err != nil {
 		return data.GetSessionByUserIDAndDateResponse{}, err
 	}
@@ -64,6 +84,9 @@ func (s *sessionService) DeleteSession(ctx context.Context, id string) error {
 }
 
 func (s *sessionService) CreateSession(ctx context.Context, req data.CreateSessionRequest) (data.CreateSessionResponse, error) {
+	if req.UID == "" {
+		req.UID = ctxconst.GetUserID(ctx)
+	}
 	// TODO: add checks if Session already exists by email etc..
 	Session := &models.SmokeSession{
 		UID:       req.UID,

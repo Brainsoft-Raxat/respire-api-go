@@ -2,10 +2,8 @@ package handler
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/data"
-	"github.com/Brainsoft-Raxat/respire-api-go/internal/repository"
 	"github.com/labstack/echo/v4"
 )
 
@@ -71,24 +69,13 @@ func (h *handler) GetSessionByTime(c echo.Context) error {
 	ctx, cancel := h.context(c)
 	defer cancel()
 
-	uid := c.Param("uid")
-	ti := c.Param("time")
-	timeRange := [2]time.Time{}
-	now := time.Now()
-	switch ti {
-	case "week":
-		timeRange = repository.GetWeek(now)
-	case "month":
-		timeRange = repository.GetMonth(now)
-
-	}
-
-	session, err := h.service.SessionService.GetSessionsByUserIDAndDateRange(ctx, data.GetSessionByUserIDAndDateRequest{ID: uid, DR: timeRange})
+	req := data.GetSessionByUserIDAndDateRequest{}
+	err := c.Bind(&req)
 	if err != nil {
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-
-	return c.JSON(http.StatusOK, session)
+	resp, err := h.service.SessionService.GetSessionsByUserIDAndDateRange(ctx, req)
+	return c.JSON(http.StatusOK, resp.Sum)
 }
 
 // CreateSession godoc
