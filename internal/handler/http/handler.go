@@ -72,6 +72,7 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			sessions.PUT("/:id", h.UpdateSession)
 			sessions.DELETE("/:id", h.DeleteSession)
 			sessions.GET("/by_time", h.GetSessionByTime)
+			sessions.GET("/stat", h.GetUserStat)
 		}
 
 		challenge := api.Group("/challenges")

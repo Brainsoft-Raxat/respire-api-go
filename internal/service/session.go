@@ -106,3 +106,16 @@ func (s *sessionService) UpdateSession(ctx context.Context, id string, req data.
 
 	return data.UpdateSessionResponse{ID: Session.ID}, nil
 }
+
+func (s *sessionService) GetUserStat(ctx context.Context, req data.GetUserStatRequest) (data.GetUserStatResponse, error) {
+	if req.ID == "" {
+		req.ID = ctxconst.GetUserID(ctx)
+	}
+	var err error
+	resp := data.GetUserStatResponse{}
+	resp.CurrentStreak, resp.BiggestStreak, resp.SavedMoney, err = s.SessionRepo.GetUserStat(ctx, req.ID)
+	if err != nil {
+		return resp, err
+	}
+	return resp, nil
+}

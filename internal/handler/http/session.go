@@ -75,6 +75,9 @@ func (h *handler) GetSessionByTime(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	resp, err := h.service.SessionService.GetSessionsByUserIDAndDateRange(ctx, req)
+	if err != nil {
+		return err
+	}
 	return c.JSON(http.StatusOK, resp.Sum)
 }
 
@@ -154,4 +157,19 @@ func (h *handler) DeleteSession(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusNoContent, nil)
+}
+
+func (h *handler) GetUserStat(c echo.Context) error {
+	ctx, cancel := h.context(c)
+	defer cancel()
+	req := data.GetUserStatRequest{}
+	req.ID = c.Param("id")
+
+	stats, err := h.service.SessionService.GetUserStat(ctx, req)
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, stats)
 }

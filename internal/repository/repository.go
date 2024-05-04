@@ -56,6 +56,7 @@ type SessionRepository interface {
 	GetSessionsByUserIDAndDateRange(ctx context.Context, username string, ti [2]time.Time) (SessionsInfo, error)
 	UpdateSession(ctx context.Context, excludeID string, ses *models.SmokeSession) error
 	DeleteSession(ctx context.Context, id string) error
+	GetUserStat(ctx context.Context, userID string) (int, int, int, error)
 }
 
 type ChallengeRepository interface {

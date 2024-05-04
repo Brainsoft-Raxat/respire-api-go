@@ -199,7 +199,53 @@ func (r *sessionRepository) DeleteSession(ctx context.Context, id string) error 
 	return nil
 }
 
-func (s *sessionRepository) GetUserStat(ctx context.Context, userID string) (int, int, int, error) {
+var averagePrice = 500
 
-	return 0, 0, 0, nil
+func (s *sessionRepository) GetUserStat(ctx context.Context, userID string) (int, int, int, error) {
+	streak := 0
+	biggestStreak := 0
+	moneySaved := 0
+	prevDay := time.Time{}
+	query := s.client.Collection(sessionCollection).Where("user_id", "==", userID).OrderBy("timestamp", firestore.Asc)
+	iter := query.Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			s.logger.Errorf("Failed to iterate smoke session documents: %v", err)
+			return 0, 0, 0, apperror.NewErrorInfo(ctx, errcodes.InternalServerError, "failed to iterate smoke session documents")
+		}
+
+		var session models.SmokeSession
+		if err := doc.DataTo(&session); err != nil {
+			s.logger.Errorf("Failed to convert smoke session data to struct: %v", err)
+			return 0, 0, 0, apperror.NewErrorInfo(ctx, errcodes.InternalServerError, "failed to convert smoke session data to struct")
+		}
+		s.logger.Info(session.Timestamp)
+		moneySaved += averagePrice * session.Count
+		if prevDay.IsZero() {
+			prevDay = session.Timestamp
+			continue
+		}
+		streak = daysBetween(prevDay, session.Timestamp)
+		if streak > biggestStreak {
+			biggestStreak = streak
+		}
+		prevDay = session.Timestamp
+	}
+	return streak, biggestStreak, moneySaved, nil
+}
+
+func daysBetween(t1, t2 time.Time) int {
+	// Truncate both times to dates
+	date1 := t1.Truncate(24 * time.Hour)
+	date2 := t2.Truncate(24 * time.Hour)
+
+	// Calculate the difference in days between date2 and date1
+	diff := int(date2.Sub(date1) / (24 * time.Hour))
+
+	// Check if the difference is exactly 1 day
+	return diff - 1
 }
