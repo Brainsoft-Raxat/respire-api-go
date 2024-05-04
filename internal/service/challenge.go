@@ -139,6 +139,21 @@ func (s *challengeService) GetChallengesByUserID(ctx context.Context, req data.G
 		return data.GetChallengesByUserIDResponse{}, err
 	}
 
+	for _, challenge := range challenges {
+		owner, err := s.userRepo.GetUserByID(ctx, req.UserID)
+		if err != nil {
+			return data.GetChallengesByUserIDResponse{}, err
+		}
+
+		challenge.Owner = &models.ShortUser{
+			ID:       owner.ID,
+			Name:     owner.Name,
+			Username: owner.Username,
+			Avatar:   owner.Avatar,
+		}
+
+	}
+
 	return data.GetChallengesByUserIDResponse{
 		Challenges: challenges,
 	}, nil
