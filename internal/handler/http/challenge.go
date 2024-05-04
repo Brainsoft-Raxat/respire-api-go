@@ -58,15 +58,16 @@ func (h *handler) GetChallengeByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, resp)
 }
 
-// GetChallengesByUserID godoc
+
+// GetChallengesByUserID(with token) godoc
 // @Summary Get challenges by user ID
 // @Description Get challenges by user ID
 // @Tags challenges
 // @Accept json
 // @Produce json
-// @Param id path string true "User ID"
+// @Param invite query string false "Invite"
 // @Success 200 {object} data.GetChallengesByUserIDResponse
-// @Router /challenges/user/{id} [get]
+// @Router /challenges [get]
 func (h *handler) GetChallengesByUserID(c echo.Context) error {
 	ctx, cancel := h.context(c)
 	defer cancel()
@@ -150,7 +151,7 @@ func (h *handler) DeleteChallengeByID(c echo.Context) error {
 // @Produce json
 // @Param challenge body data.HandleChallengeInviationRequest true "Challenge object that needs to be handled"
 // @Success 200 {object} data.HandleChallengeInviationResponse
-// @Router /challenge/invitations/handle [post]
+// @Router /challenges/invite/handle [post]
 func (h *handler) HandleChallengeInviation(c echo.Context) error {
 	ctx, cancel := h.context(c)
 	defer cancel()

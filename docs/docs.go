@@ -24,9 +24,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/challenge/invitations/handle": {
-            "post": {
-                "description": "Handle challenge inviation",
+        "/challenges": {
+            "get": {
+                "description": "Get challenges by user ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -36,29 +36,24 @@ const docTemplate = `{
                 "tags": [
                     "challenges"
                 ],
-                "summary": "Handle challenge inviation",
+                "summary": "Get challenges by user ID",
                 "parameters": [
                     {
-                        "description": "Challenge object that needs to be handled",
-                        "name": "challenge",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/data.HandleChallengeInviationRequest"
-                        }
+                        "type": "string",
+                        "description": "Invite",
+                        "name": "invite",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/data.HandleChallengeInviationResponse"
+                            "$ref": "#/definitions/data.GetChallengesByUserIDResponse"
                         }
                     }
                 }
-            }
-        },
-        "/challenges": {
+            },
             "post": {
                 "description": "Create a challenge",
                 "consumes": [
@@ -92,9 +87,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/challenges/user/{id}": {
-            "get": {
-                "description": "Get challenges by user ID",
+        "/challenges/invite/handle": {
+            "post": {
+                "description": "Handle challenge inviation",
                 "consumes": [
                     "application/json"
                 ],
@@ -104,21 +99,23 @@ const docTemplate = `{
                 "tags": [
                     "challenges"
                 ],
-                "summary": "Get challenges by user ID",
+                "summary": "Handle challenge inviation",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
+                        "description": "Challenge object that needs to be handled",
+                        "name": "challenge",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.HandleChallengeInviationRequest"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/data.GetChallengesByUserIDResponse"
+                            "$ref": "#/definitions/data.HandleChallengeInviationResponse"
                         }
                     }
                 }

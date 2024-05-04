@@ -362,29 +362,26 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
-  /challenge/invitations/handle:
-    post:
+  /challenges:
+    get:
       consumes:
       - application/json
-      description: Handle challenge inviation
+      description: Get challenges by user ID
       parameters:
-      - description: Challenge object that needs to be handled
-        in: body
-        name: challenge
-        required: true
-        schema:
-          $ref: '#/definitions/data.HandleChallengeInviationRequest'
+      - description: Invite
+        in: query
+        name: invite
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/data.HandleChallengeInviationResponse'
-      summary: Handle challenge inviation
+            $ref: '#/definitions/data.GetChallengesByUserIDResponse'
+      summary: Get challenges by user ID
       tags:
       - challenges
-  /challenges:
     post:
       consumes:
       - application/json
@@ -471,25 +468,26 @@ paths:
       summary: Update a challenge by ID
       tags:
       - challenges
-  /challenges/user/{id}:
-    get:
+  /challenges/invite/handle:
+    post:
       consumes:
       - application/json
-      description: Get challenges by user ID
+      description: Handle challenge inviation
       parameters:
-      - description: User ID
-        in: path
-        name: id
+      - description: Challenge object that needs to be handled
+        in: body
+        name: challenge
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/data.HandleChallengeInviationRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/data.GetChallengesByUserIDResponse'
-      summary: Get challenges by user ID
+            $ref: '#/definitions/data.HandleChallengeInviationResponse'
+      summary: Handle challenge inviation
       tags:
       - challenges
   /friends:

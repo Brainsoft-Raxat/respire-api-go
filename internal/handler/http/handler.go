@@ -74,15 +74,15 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			sessions.GET("/:uid/:time", h.GetSessionByTime)
 		}
 
-		challenge := api.Group("/challenge")
+		challenge := api.Group("/challenges")
 		{
 			challenge.POST("", h.CreateChallenge)
 			challenge.GET("/:id", h.GetChallengeByID)
-			challenge.GET("/user", h.GetChallengesByUserID)
+			challenge.GET("", h.GetChallengesByUserID)
 			challenge.GET("/user/:id", h.GetChallengesByUserID)
 			challenge.PUT("/:id", h.UpdateChallengeByID)
 			challenge.DELETE("/:id", h.DeleteChallengeByID)
-			challenge.POST("/invitations/handle", h.HandleChallengeInviation)
+			challenge.POST("/invite/handle", h.HandleChallengeInviation)
 		}
 
 		api.GET("", h.handleExample)
