@@ -40,16 +40,9 @@ func (s *sessionService) GetSessionByID(ctx context.Context, req data.GetSession
 }
 
 func (s *sessionService) GetSessionByUserID(ctx context.Context, req data.GetSessionByUserIDRequest) (data.GetSessionByUserIDResponse, error) {
-<<<<<<< HEAD
 	now := time.Now().UTC()
 	from := now.AddDate(0, 0, -7)
 	sessions, err := s.SessionRepo.GetSessionsByUserID(ctx, req.ID, from, now, 0)
-=======
-	if req.ID == "" {
-		req.ID = ctxconst.GetUserID(ctx)
-	}
-	sessions, err := s.SessionRepo.GetSessionsByUserID(ctx, req.ID)
->>>>>>> sessions
 	if err != nil {
 		return data.GetSessionByUserIDResponse{}, err
 	}
@@ -90,9 +83,6 @@ func (s *sessionService) DeleteSession(ctx context.Context, id string) error {
 }
 
 func (s *sessionService) CreateSession(ctx context.Context, req data.CreateSessionRequest) (data.CreateSessionResponse, error) {
-	if req.UID == "" {
-		req.UID = ctxconst.GetUserID(ctx)
-	}
 	// TODO: add checks if Session already exists by email etc..
 	Session := &models.SmokeSession{
 		UID:       req.UID,
