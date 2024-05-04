@@ -140,7 +140,7 @@ func (s *challengeService) GetChallengesByUserID(ctx context.Context, req data.G
 	}
 
 	for _, challenge := range challenges {
-		owner, err := s.userRepo.GetUserByID(ctx, challenge.ID)
+		owner, err := s.userRepo.GetUserByID(ctx, challenge.OwnerID)
 		if err != nil {
 			return data.GetChallengesByUserIDResponse{}, err
 		}
