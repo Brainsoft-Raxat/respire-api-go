@@ -19,10 +19,12 @@ type User struct {
 }
 
 type ShortUser struct {
-	ID       string `json:"id" firestore:"-"`
-	Name     string `json:"name" firestore:"name,omitempty"`
-	Username string `json:"username" firestore:"username,omitempty"`
-	Avatar   string `json:"avatar" firestore:"avatar,omitempty"`
+	ID         string `json:"id" firestore:"-"`
+	Name       string `json:"name" firestore:"name,omitempty"`
+	Username   string `json:"username" firestore:"username,omitempty"`
+	Avatar     string `json:"avatar" firestore:"avatar,omitempty"`
+	SmokeCount int    `json:"smoke_count,omitempty" firestore:"smoke_count,omitempty"`
+	Position   int    `json:"position,omitempty" firestore:"position,omitempty"`
 }
 
 const (

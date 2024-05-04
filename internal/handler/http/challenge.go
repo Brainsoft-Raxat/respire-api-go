@@ -72,7 +72,10 @@ func (h *handler) GetChallengesByUserID(c echo.Context) error {
 	defer cancel()
 
 	req := data.GetChallengesByUserIDRequest{
-		UserID: c.Param("id"),
+		UserID:        c.Param("id"),
+		Invite:        c.QueryParam("invite") == "true",
+		// From:          time.Time{},
+		// To:            time.Time{},
 	}
 
 	resp, err := h.service.ChallengeService.GetChallengesByUserID(ctx, req)
@@ -136,4 +139,31 @@ func (h *handler) DeleteChallengeByID(c echo.Context) error {
 	}
 
 	return c.NoContent(http.StatusOK)
+}
+
+
+// HandleChallengeInviation godoc
+// @Summary Handle challenge inviation
+// @Description Handle challenge inviation
+// @Tags challenges
+// @Accept json
+// @Produce json
+// @Param challenge body data.HandleChallengeInviationRequest true "Challenge object that needs to be handled"
+// @Success 200 {object} data.HandleChallengeInviationResponse
+// @Router /challenge/invitations/handle [post]
+func (h *handler) HandleChallengeInviation(c echo.Context) error {
+	ctx, cancel := h.context(c)
+	defer cancel()
+
+	req := data.HandleChallengeInviationRequest{}
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, "Invalid request")
+	}
+
+	resp, err := h.service.ChallengeService.HandleChallengeInviation(ctx, req)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, resp)
 }

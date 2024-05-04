@@ -82,6 +82,7 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			challenge.GET("/user/:id", h.GetChallengesByUserID)
 			challenge.PUT("/:id", h.UpdateChallengeByID)
 			challenge.DELETE("/:id", h.DeleteChallengeByID)
+			challenge.POST("/invitations/handle", h.HandleChallengeInviation)
 		}
 
 		api.GET("", h.handleExample)

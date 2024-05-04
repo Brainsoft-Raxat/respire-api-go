@@ -27,6 +27,7 @@ type GetChallengeByIDRequest struct {
 
 type GetChallengeByIDResponse struct {
 	*models.Challenge
+	Leaderboard []*models.ShortUser `json:"leaderboard"`
 }
 
 type GetChallengesByUserIDRequest struct {
@@ -55,5 +56,22 @@ type UpdateChallengeRequest struct {
 }
 
 type UpdateChallengeResponse struct {
+	ID string `json:"id"`
+}
+
+type GetChallengeInvitationsByUserIDRequest struct {
+	UserID string `json:"user_id"`
+}
+
+type GetChallengeInvitationsByUserIDResponse struct {
+	Challenges []*models.Challenge `json:"challenges"`
+}
+
+type HandleChallengeInviationRequest struct {
+	ChallengeID string `json:"challenge_id"`
+	Accept      bool   `json:"accept"`
+}
+
+type HandleChallengeInviationResponse struct {
 	ID string `json:"id"`
 }

@@ -14,6 +14,8 @@ type Challenge struct {
 	Prize           string    `json:"prize" firestore:"prize,omitempty"`
 	Penalty         int       `json:"penalty" firestore:"penalty,omitempty"`
 	CigarettesLimit int       `json:"cigarettes_limit" firestore:"cigarettes_limit,omitempty"`
+	CreatedAt       time.Time `json:"created_at" firestore:"created_at,omitempty"`
+	UpdatedAt       time.Time `json:"updated_at" firestore:"updated_at,omitempty"`
 }
 
 const (

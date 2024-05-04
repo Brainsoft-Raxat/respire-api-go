@@ -68,6 +68,8 @@ definitions:
     properties:
       cigarettes_limit:
         type: integer
+      created_at:
+        type: string
       description:
         type: string
       end_date:
@@ -77,6 +79,10 @@ definitions:
       invited:
         items:
           type: string
+        type: array
+      leaderboard:
+        items:
+          $ref: '#/definitions/models.ShortUser'
         type: array
       name:
         type: string
@@ -91,6 +97,8 @@ definitions:
       prize:
         type: string
       type:
+        type: string
+      updated_at:
         type: string
     type: object
   data.GetChallengesByUserIDResponse:
@@ -147,6 +155,18 @@ definitions:
       updated_at:
         type: string
       username:
+        type: string
+    type: object
+  data.HandleChallengeInviationRequest:
+    properties:
+      accept:
+        type: boolean
+      challenge_id:
+        type: string
+    type: object
+  data.HandleChallengeInviationResponse:
+    properties:
+      id:
         type: string
     type: object
   data.HandleFriendshipInvitationRequest:
@@ -234,6 +254,8 @@ definitions:
     properties:
       cigarettes_limit:
         type: integer
+      created_at:
+        type: string
       description:
         type: string
       end_date:
@@ -258,6 +280,8 @@ definitions:
         type: string
       type:
         type: string
+      updated_at:
+        type: string
     type: object
   models.Invitation:
     properties:
@@ -280,6 +304,10 @@ definitions:
         type: string
       name:
         type: string
+      position:
+        type: integer
+      smoke_count:
+        type: integer
       username:
         type: string
     type: object
@@ -334,6 +362,28 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /challenge/invitations/handle:
+    post:
+      consumes:
+      - application/json
+      description: Handle challenge inviation
+      parameters:
+      - description: Challenge object that needs to be handled
+        in: body
+        name: challenge
+        required: true
+        schema:
+          $ref: '#/definitions/data.HandleChallengeInviationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.HandleChallengeInviationResponse'
+      summary: Handle challenge inviation
+      tags:
+      - challenges
   /challenges:
     post:
       consumes:

@@ -52,6 +52,7 @@ func (r *challengeRepository) GetChallengeByID(ctx context.Context, challengeID 
 		r.logger.Errorf("Failed to convert challenge data to struct: %v", err)
 		return nil, apperror.NewErrorInfo(ctx, errcodes.InternalServerError, "failed to get challenge by ID")
 	}
+	challenge.ID = doc.Ref.ID
 
 	return &challenge, nil
 }
@@ -98,6 +99,7 @@ func (r *challengeRepository) GetChallengesByUserID(ctx context.Context, userID,
 			r.logger.Errorf("Failed to convert challenge data to struct: %v", err)
 			return nil, apperror.NewErrorInfo(ctx, errcodes.InternalServerError, "failed to get challenges by user ID")
 		}
+		challenge.ID = snapshot.Ref.ID
 		challenges = append(challenges, &challenge)
 	}
 

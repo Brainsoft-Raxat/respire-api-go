@@ -69,8 +69,8 @@ func (s *sessionRepository) GetSessionByID(ctx context.Context, id string) (*mod
 	return &session, nil
 }
 
-func (s *sessionRepository) GetSessionsByUserID(ctx context.Context, userID string) (SessionsInfo, error) {
-	query := s.client.Collection(sessionCollection).Where("user_id", "==", userID)
+func (s *sessionRepository) GetSessionsByUserID(ctx context.Context, userID string, from, to time.Time, limit int) (SessionsInfo, error) {
+	query := s.client.Collection(sessionCollection).Where("user_id", "==", userID).Where("timestamp", ">=", from).Where("timestamp", "<=", to).OrderBy("timestamp", firestore.Desc)
 	iter := query.Documents(ctx)
 	var sessions []*models.SmokeSession
 	for {

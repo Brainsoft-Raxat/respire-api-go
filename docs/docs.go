@@ -24,6 +24,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/challenge/invitations/handle": {
+            "post": {
+                "description": "Handle challenge inviation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "challenges"
+                ],
+                "summary": "Handle challenge inviation",
+                "parameters": [
+                    {
+                        "description": "Challenge object that needs to be handled",
+                        "name": "challenge",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.HandleChallengeInviationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/data.HandleChallengeInviationResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/challenges": {
             "post": {
                 "description": "Create a challenge",
@@ -990,6 +1024,9 @@ const docTemplate = `{
                 "cigarettes_limit": {
                     "type": "integer"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1003,6 +1040,12 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "type": "string"
+                    }
+                },
+                "leaderboard": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortUser"
                     }
                 },
                 "name": {
@@ -1024,6 +1067,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -1111,6 +1157,25 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.HandleChallengeInviationRequest": {
+            "type": "object",
+            "properties": {
+                "accept": {
+                    "type": "boolean"
+                },
+                "challenge_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.HandleChallengeInviationResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
                     "type": "string"
                 }
             }
@@ -1247,6 +1312,9 @@ const docTemplate = `{
                 "cigarettes_limit": {
                     "type": "integer"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1282,6 +1350,9 @@ const docTemplate = `{
                 },
                 "type": {
                     "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -1316,6 +1387,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "position": {
+                    "type": "integer"
+                },
+                "smoke_count": {
+                    "type": "integer"
                 },
                 "username": {
                     "type": "string"

@@ -46,6 +46,7 @@ type ChallengeService interface{
 	GetChallengesByUserID(ctx context.Context, req data.GetChallengesByUserIDRequest) (data.GetChallengesByUserIDResponse, error)
 	UpdateChallengeByID(ctx context.Context, req data.UpdateChallengeRequest) (data.UpdateChallengeResponse, error)
 	DeleteChallengeByID(ctx context.Context, req data.GetChallengeByIDRequest) error
+	HandleChallengeInviation(ctx context.Context, req data.HandleChallengeInviationRequest) (data.HandleChallengeInviationResponse, error)
 }
 
 type Service struct {

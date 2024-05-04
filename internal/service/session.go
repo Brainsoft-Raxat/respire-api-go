@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/Brainsoft-Raxat/respire-api-go/config"
 	"github.com/Brainsoft-Raxat/respire-api-go/internal/data"
@@ -38,7 +39,9 @@ func (s *sessionService) GetSessionByID(ctx context.Context, req data.GetSession
 }
 
 func (s *sessionService) GetSessionByUserID(ctx context.Context, req data.GetSessionByUserIDRequest) (data.GetSessionByUserIDResponse, error) {
-	sessions, err := s.SessionRepo.GetSessionsByUserID(ctx, req.ID)
+	now := time.Now().UTC()
+	from := now.AddDate(0, 0, -7)
+	sessions, err := s.SessionRepo.GetSessionsByUserID(ctx, req.ID, from, now, 0)
 	if err != nil {
 		return data.GetSessionByUserIDResponse{}, err
 	}

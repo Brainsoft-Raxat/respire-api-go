@@ -52,7 +52,7 @@ type FriendshipRepository interface {
 type SessionRepository interface {
 	CreateSession(ctx context.Context, user *models.SmokeSession) (string, error)
 	GetSessionByID(ctx context.Context, id string) (*models.SmokeSession, error)
-	GetSessionsByUserID(ctx context.Context, id string) (SessionsInfo, error)
+	GetSessionsByUserID(ctx context.Context, userID string, from, to time.Time, limit int) (SessionsInfo, error)
 	GetSessionsByUserIDAndDateRange(ctx context.Context, username string, ti [2]time.Time) (SessionsInfo, error)
 	UpdateSession(ctx context.Context, excludeID string, ses *models.SmokeSession) error
 	DeleteSession(ctx context.Context, id string) error
