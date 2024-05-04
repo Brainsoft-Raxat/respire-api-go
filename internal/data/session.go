@@ -50,3 +50,15 @@ type UpdateSessionRequest struct {
 type UpdateSessionResponse struct {
 	ID string `json:"id"`
 }
+
+type GetUserStatRequest struct {
+	ID string `json:"id"`
+}
+
+const AverageCigarettePrice = 500
+
+type GetUserStatResponse struct {
+	CurrentStreak int `json:"current_streak"`
+	BiggestStreak int `json:"biggest_streak"`
+	SavedMoney    int `json:"saved_money"`
+}
