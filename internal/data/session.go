@@ -33,8 +33,10 @@ type GetSessionByUserIDResponse struct {
 }
 
 type GetSessionByUserIDAndDateRequest struct {
-	ID string `json:"id"`
-	DR [2]time.Time
+	ID     string    `json:"id"`
+	Period string    `json:"period"`
+	Start  time.Time `json:"start"`
+	End    time.Time `json:"end"`
 }
 
 type GetSessionByUserIDAndDateResponse struct {
@@ -47,4 +49,16 @@ type UpdateSessionRequest struct {
 
 type UpdateSessionResponse struct {
 	ID string `json:"id"`
+}
+
+type GetUserStatRequest struct {
+	ID string `json:"id"`
+}
+
+const AverageCigarettePrice = 500
+
+type GetUserStatResponse struct {
+	CurrentStreak int `json:"current_streak"`
+	BiggestStreak int `json:"biggest_streak"`
+	SavedMoney    int `json:"saved_money"`
 }

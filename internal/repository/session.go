@@ -198,3 +198,8 @@ func (r *sessionRepository) DeleteSession(ctx context.Context, id string) error 
 
 	return nil
 }
+
+func (s *sessionRepository) GetUserStat(ctx context.Context, userID string) (int, int, int, error) {
+
+	return 0, 0, 0, nil
+}

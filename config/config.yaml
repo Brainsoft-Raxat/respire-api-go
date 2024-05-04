@@ -1,7 +1,7 @@
 app:
   port: 8080
   timeout: 60s
-  #host: localhost
-  env: dev
+  host: localhost
+  env: local
 firebase:
   project_id: quitsmoke-20141
