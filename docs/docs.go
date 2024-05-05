@@ -24,6 +24,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/ai-assistant/recommendations": {
+            "post": {
+                "description": "Get recommendations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ai-assistant"
+                ],
+                "summary": "Get recommendations",
+                "parameters": [
+                    {
+                        "description": "Recommendations object that needs to be created",
+                        "name": "recommendations",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.GetRecommendationsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/data.GetRecommendationsResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/challenges": {
             "get": {
                 "description": "Get challenges by user ID",
@@ -1048,6 +1082,9 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "owner": {
+                    "$ref": "#/definitions/models.ShortUser"
+                },
                 "owner_id": {
                     "type": "string"
                 },
@@ -1100,6 +1137,31 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.Invitation"
+                    }
+                }
+            }
+        },
+        "data.GetRecommendationsRequest": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string"
+                },
+                "craving": {
+                    "type": "integer"
+                },
+                "mood": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.GetRecommendationsResponse": {
+            "type": "object",
+            "properties": {
+                "reccomendations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     }
                 }
             }
@@ -1329,6 +1391,9 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "owner": {
+                    "$ref": "#/definitions/models.ShortUser"
                 },
                 "owner_id": {
                     "type": "string"

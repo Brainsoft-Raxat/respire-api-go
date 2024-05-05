@@ -9,8 +9,9 @@ import (
 )
 
 type Configs struct {
-	App      *AppConfig `mapstructure:"app" json:"app"`
-	Firebase *Firebase  `mapstructure:"firebase" json:"firebase"`
+	App         *AppConfig   `mapstructure:"app" json:"app"`
+	Firebase    *Firebase    `mapstructure:"firebase" json:"firebase"`
+	AIAssistant *AIAssistant `mapstructure:"ai_assistant" json:"ai_assistant"`
 }
 
 type AppConfig struct {
@@ -22,6 +23,10 @@ type AppConfig struct {
 
 type Firebase struct {
 	ProjectID string `mapstructure:"project_id" json:"project_id"`
+}
+
+type AIAssistant struct {
+	BaseURL string `mapstructure:"base_url" json:"base_url"`
 }
 
 func New() (*Configs, error) {

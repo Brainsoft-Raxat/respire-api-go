@@ -86,6 +86,11 @@ func (h *handler) SetAPI(e *echo.Echo) {
 			challenge.POST("/invite/handle", h.HandleChallengeInviation)
 		}
 
+		aiAssistnat := api.Group("/ai-assistant")
+		{
+			aiAssistnat.POST("/recommendations", h.GetRecommendations)
+		}
+
 		api.GET("", h.handleExample)
 	}
 }

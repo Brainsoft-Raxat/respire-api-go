@@ -5,3 +5,5 @@ app:
   env: dev
 firebase:
   project_id: quitsmoke-20141
+ai_assistant:
+  base_url: https://respire-ai-assistant-api-py-jc4tvs5hja-ey.a.run.app

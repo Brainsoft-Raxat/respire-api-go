@@ -50,18 +50,24 @@ type ChallengeService interface {
 	HandleChallengeInviation(ctx context.Context, req data.HandleChallengeInviationRequest) (data.HandleChallengeInviationResponse, error)
 }
 
+type AIAssistantService interface {
+	GetRecommendations(ctx context.Context, req data.GetRecommendationsRequest) (data.GetRecommendationsResponse, error)
+}
+
 type Service struct {
 	UserService
 	FriendshipService
 	SessionService
 	ChallengeService
+	AIAssistantService
 }
 
 func New(repos *repository.Repository, cfg *config.Configs, logger *zap.SugaredLogger) *Service {
 	return &Service{
-		UserService:       NewUserService(repos, cfg, logger),
-		FriendshipService: NewFriendshipService(repos, cfg, logger),
-		SessionService:    NewSessionService(repos, cfg, logger),
-		ChallengeService:  NewChallengeService(repos, cfg, logger),
+		UserService:        NewUserService(repos, cfg, logger),
+		FriendshipService:  NewFriendshipService(repos, cfg, logger),
+		SessionService:     NewSessionService(repos, cfg, logger),
+		ChallengeService:   NewChallengeService(repos, cfg, logger),
+		AIAssistantService: NewAIAssistantService(repos, cfg, logger),
 	}
 }

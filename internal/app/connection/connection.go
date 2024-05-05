@@ -3,6 +3,7 @@ package connection
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
@@ -11,8 +12,9 @@ import (
 )
 
 type Connection struct {
-	Firebase  *firebase.App
-	Firestore *firestore.Client
+	Firebase    *firebase.App
+	Firestore   *firestore.Client
+	AIAssistant *http.Client
 }
 
 func New(cfg *config.Configs) (*Connection, error) {
@@ -36,9 +38,12 @@ func New(cfg *config.Configs) (*Connection, error) {
 		return nil, fmt.Errorf("failed to create Firestore client: %v", err)
 	}
 
+	aiAssistantHTTPClient := http.DefaultClient
+
 	return &Connection{
-		Firebase:  firebaseApp,
-		Firestore: firestoreClient,
+		Firebase:    firebaseApp,
+		Firestore:   firestoreClient,
+		AIAssistant: aiAssistantHTTPClient,
 	}, nil
 }
 

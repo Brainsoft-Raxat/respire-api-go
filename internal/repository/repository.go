@@ -16,6 +16,7 @@ type Repository struct {
 	FriendshipRepository
 	SessionRepository
 	ChallengeRepository
+	AIAssistantRepository
 }
 
 type UserRepository interface {
@@ -69,12 +70,17 @@ type ChallengeRepository interface {
 
 type TaskRepository interface{}
 
+type AIAssistantRepository interface{
+	GetRecommendations(ctx context.Context, req models.GetRecommendationRequest) (models.GetRecommendationResponse, error)
+}
+
 func New(conn *connection.Connection, cfg *config.Configs, logger *zap.SugaredLogger) *Repository {
 	return &Repository{
-		UserRepository:       NewUserRepository(conn.Firestore, cfg.Firebase, logger),
-		InvitationRepository: NewInvitationRepository(conn.Firestore, cfg.Firebase, logger),
-		FriendshipRepository: NewFriendshipRepository(conn.Firestore, cfg.Firebase, logger),
-		SessionRepository:    NewSessionRepository(conn.Firestore, cfg.Firebase, logger),
-		ChallengeRepository:  NewChallengeRepository(conn.Firestore, cfg.Firebase, logger),
+		UserRepository:        NewUserRepository(conn.Firestore, cfg.Firebase, logger),
+		InvitationRepository:  NewInvitationRepository(conn.Firestore, cfg.Firebase, logger),
+		FriendshipRepository:  NewFriendshipRepository(conn.Firestore, cfg.Firebase, logger),
+		SessionRepository:     NewSessionRepository(conn.Firestore, cfg.Firebase, logger),
+		ChallengeRepository:   NewChallengeRepository(conn.Firestore, cfg.Firebase, logger),
+		AIAssistantRepository: NewAIAssistantRepository(conn.AIAssistant, cfg.AIAssistant, logger),
 	}
 }
