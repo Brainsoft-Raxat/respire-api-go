@@ -84,6 +84,9 @@ func (s *sessionService) DeleteSession(ctx context.Context, id string) error {
 
 func (s *sessionService) CreateSession(ctx context.Context, req data.CreateSessionRequest) (data.CreateSessionResponse, error) {
 	// TODO: add checks if Session already exists by email etc..
+	if req.UID == "" {
+		req.UID = ctxconst.GetUserID(ctx)
+	}
 	Session := &models.SmokeSession{
 		UID:       req.UID,
 		Count:     req.Count,
