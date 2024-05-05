@@ -62,14 +62,16 @@ func (h *handler) GetSessionByUserID(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param uid path string true "User ID"
-// @Param time path string true "Time"
+// @Param time query data.CreateSessionRequest true "Time Query"
 // @Success 200 {object} data.GetSessionByUserIDResponse
-// @Router /sessions/{uid}/{time} [get]
+// @Router /sessions/by_time/:uid [get]
 func (h *handler) GetSessionByTime(c echo.Context) error {
 	ctx, cancel := h.context(c)
 	defer cancel()
 
-	req := data.GetSessionByUserIDAndDateRequest{}
+	req := data.GetSessionByUserIDAndDateRequest{
+		ID: c.Param("uid"),
+	}
 	err := c.Bind(&req)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -87,6 +89,7 @@ func (h *handler) GetSessionByTime(c echo.Context) error {
 // @Tags sessions
 // @Accept json
 // @Produce json
+// @Param uid path string true "Session ID"
 // @Param session body data.CreateSessionRequest true "Session object that needs to be created"
 // @Success 200 {object} data.CreateSessionResponse
 // @Router /sessions [post]
@@ -94,7 +97,7 @@ func (h *handler) CreateSession(c echo.Context) error {
 	ctx, cancel := h.context(c)
 	defer cancel()
 
-	req := data.CreateSessionRequest{}
+	req := data.CreateSessionRequest{UID: c.Param("uid")}
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -159,6 +162,15 @@ func (h *handler) DeleteSession(c echo.Context) error {
 	return c.JSON(http.StatusNoContent, nil)
 }
 
+// GetUserStat godoc
+// @Summary Get User statistics
+// @Description Get User statistics
+// @Tags sessions
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Success 204
+// @Router /sessions/stat/{id} [get]
 func (h *handler) GetUserStat(c echo.Context) error {
 	ctx, cancel := h.context(c)
 	defer cancel()
