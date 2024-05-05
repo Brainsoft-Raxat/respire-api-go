@@ -80,7 +80,7 @@ ___
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your/repository.git
+git clone https://github.com/Brainsoft-Raxat/respire-api-go.git
 cd repository
 ```
 ### Install dependencies
