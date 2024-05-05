@@ -32,7 +32,7 @@ https://github.com/aidanakalimbekova/respire-mobile
 
 ### Demo Video
 ![respire._pages-to-jpg-0001.jpg](ReadmeContent/respire._pages-to-jpg-0001.jpg)
-> Youtube Video Link: https://www.youtube.com/watch?v=XZaXcsDsGV4
+> Youtube Video Link: [https://www.youtube.com/watch?v=XZaXcsDsGV4](https://youtu.be/B7IVdjwAz60?si=q3IRj3_KTUFKOEeb)
 
 ___
 
