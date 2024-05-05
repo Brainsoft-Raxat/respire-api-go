@@ -38,7 +38,6 @@ func (h *handler) GetSessionByID(c echo.Context) error {
 // @Tags sessions
 // @Accept json
 // @Produce json
-// @Param uid path string true "User ID"
 // @Success 200 {object} data.GetSessionByUserIDResponse
 // @Router /sessions/{uid} [get]
 func (h *handler) GetSessionByUserID(c echo.Context) error {
@@ -61,10 +60,9 @@ func (h *handler) GetSessionByUserID(c echo.Context) error {
 // @Tags sessions
 // @Accept json
 // @Produce json
-// @Param uid path string true "User ID"
-// @Param time query data.CreateSessionRequest true "Time Query"
-// @Success 200 {object} data.GetSessionByUserIDResponse
-// @Router /sessions/by_time/:uid [get]
+// @Param time query data.GetSessionByUserIDAndDateRequest true "Time Query"
+// @Success 200 {object} data.GetSessionByUserIDAndDateResponse
+// @Router /sessions/by_time/ [get]
 func (h *handler) GetSessionByTime(c echo.Context) error {
 	ctx, cancel := h.context(c)
 	defer cancel()
@@ -89,7 +87,6 @@ func (h *handler) GetSessionByTime(c echo.Context) error {
 // @Tags sessions
 // @Accept json
 // @Produce json
-// @Param uid path string true "Session ID"
 // @Param session body data.CreateSessionRequest true "Session object that needs to be created"
 // @Success 200 {object} data.CreateSessionResponse
 // @Router /sessions [post]

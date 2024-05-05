@@ -42,6 +42,9 @@ func (s *sessionService) GetSessionByID(ctx context.Context, req data.GetSession
 func (s *sessionService) GetSessionByUserID(ctx context.Context, req data.GetSessionByUserIDRequest) (data.GetSessionByUserIDResponse, error) {
 	now := time.Now().UTC()
 	from := now.AddDate(0, 0, -7)
+	if req.ID == "" {
+		req.ID = ctxconst.GetUserID(ctx)
+	}
 	sessions, err := s.SessionRepo.GetSessionsByUserID(ctx, req.ID, from, now, 0)
 	if err != nil {
 		return data.GetSessionByUserIDResponse{}, err

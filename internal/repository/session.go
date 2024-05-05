@@ -223,7 +223,6 @@ func (s *sessionRepository) GetUserStat(ctx context.Context, userID string) (int
 			s.logger.Errorf("Failed to convert smoke session data to struct: %v", err)
 			return 0, 0, 0, apperror.NewErrorInfo(ctx, errcodes.InternalServerError, "failed to convert smoke session data to struct")
 		}
-		s.logger.Info(session.Timestamp)
 		moneySaved += averagePrice * session.Count
 		if prevDay.IsZero() {
 			prevDay = session.Timestamp
@@ -234,6 +233,9 @@ func (s *sessionRepository) GetUserStat(ctx context.Context, userID string) (int
 			biggestStreak = streak
 		}
 		prevDay = session.Timestamp
+	}
+	if streak < 0 {
+		streak = 0
 	}
 	return streak, biggestStreak, moneySaved, nil
 }
