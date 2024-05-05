@@ -49,8 +49,7 @@ ___
 
 ## UN Sustainable Development Goals And Targets
 
-![SDG](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sustainable_Development_Goal_3.png/1200px-Sustainable_Development_Goal_3.png){:height="200px" width="200px"}
-
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sustainable_Development_Goal_3.png/1200px-Sustainable_Development_Goal_3.png" alt="SDG" style="width:200px;height:200px;">
 
 ## Core functionalities
 ### Smoking Habbits Tracker
