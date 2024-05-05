@@ -489,6 +489,13 @@ const docTemplate = `{
                 "summary": "Create a session",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Session object that needs to be created",
                         "name": "session",
                         "in": "body",
@@ -504,6 +511,82 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/data.CreateSessionResponse"
                         }
+                    }
+                }
+            }
+        },
+        "/sessions/by_time/:uid": {
+            "get": {
+                "description": "Get a session by user ID and time",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sessions"
+                ],
+                "summary": "Get a session by user ID and time",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "count",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "timestamp",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "uid",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/data.GetSessionByUserIDResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sessions/stat/{id}": {
+            "get": {
+                "description": "Get User statistics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sessions"
+                ],
+                "summary": "Get User statistics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -624,45 +707,6 @@ const docTemplate = `{
                         "type": "string",
                         "description": "User ID",
                         "name": "uid",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/data.GetSessionByUserIDResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/sessions/{uid}/{time}": {
-            "get": {
-                "description": "Get a session by user ID and time",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sessions"
-                ],
-                "summary": "Get a session by user ID and time",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "uid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Time",
-                        "name": "time",
                         "in": "path",
                         "required": true
                     }

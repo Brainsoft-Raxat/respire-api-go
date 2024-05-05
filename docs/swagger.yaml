@@ -676,6 +676,11 @@ paths:
       - application/json
       description: Create a session
       parameters:
+      - description: Session ID
+        in: path
+        name: uid
+        required: true
+        type: string
       - description: Session object that needs to be created
         in: body
         name: session
@@ -778,7 +783,7 @@ paths:
       summary: Get a session by user ID
       tags:
       - sessions
-  /sessions/{uid}/{time}:
+  /sessions/by_time/:uid:
     get:
       consumes:
       - application/json
@@ -789,10 +794,14 @@ paths:
         name: uid
         required: true
         type: string
-      - description: Time
-        in: path
-        name: time
-        required: true
+      - in: query
+        name: count
+        type: integer
+      - in: query
+        name: timestamp
+        type: string
+      - in: query
+        name: uid
         type: string
       produces:
       - application/json
@@ -802,6 +811,25 @@ paths:
           schema:
             $ref: '#/definitions/data.GetSessionByUserIDResponse'
       summary: Get a session by user ID and time
+      tags:
+      - sessions
+  /sessions/stat/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get User statistics
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Get User statistics
       tags:
       - sessions
   /user:
