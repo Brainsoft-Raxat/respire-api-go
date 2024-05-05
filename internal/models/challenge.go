@@ -9,7 +9,7 @@ type Challenge struct {
 	Description     string     `json:"description" firestore:"description,omitempty"`
 	EndDate         time.Time  `json:"end_date" firestore:"end_date,omitempty"`
 	OwnerID         string     `json:"owner_id" firestore:"owner_id,omitempty"`
-	Owner           *ShortUser `json:"owner,omitempmty" firestore:"-"`
+	Owner           *ShortUser `json:"owner,omitempty" firestore:"-"`
 	Participants    []string   `json:"participants" firestore:"participants,omitempty"`
 	Invited         []string   `json:"invited" firestore:"invited,omitempty"`
 	Prize           string     `json:"prize" firestore:"prize,omitempty"`

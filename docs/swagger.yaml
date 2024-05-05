@@ -145,6 +145,11 @@ definitions:
       session:
         $ref: '#/definitions/models.SmokeSession'
     type: object
+  data.GetSessionByUserIDAndDateResponse:
+    properties:
+      sum:
+        type: integer
+    type: object
   data.GetSessionByUserIDResponse:
     properties:
       sum:
@@ -676,11 +681,6 @@ paths:
       - application/json
       description: Create a session
       parameters:
-      - description: Session ID
-        in: path
-        name: uid
-        required: true
-        type: string
       - description: Session object that needs to be created
         in: body
         name: session
@@ -767,12 +767,6 @@ paths:
       consumes:
       - application/json
       description: Get a session by user ID
-      parameters:
-      - description: User ID
-        in: path
-        name: uid
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -783,25 +777,23 @@ paths:
       summary: Get a session by user ID
       tags:
       - sessions
-  /sessions/by_time/:uid:
+  /sessions/by_time/:
     get:
       consumes:
       - application/json
       description: Get a session by user ID and time
       parameters:
-      - description: User ID
-        in: path
-        name: uid
-        required: true
+      - in: query
+        name: end
         type: string
       - in: query
-        name: count
-        type: integer
-      - in: query
-        name: timestamp
+        name: id
         type: string
       - in: query
-        name: uid
+        name: period
+        type: string
+      - in: query
+        name: start
         type: string
       produces:
       - application/json
@@ -809,7 +801,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/data.GetSessionByUserIDResponse'
+            $ref: '#/definitions/data.GetSessionByUserIDAndDateResponse'
       summary: Get a session by user ID and time
       tags:
       - sessions

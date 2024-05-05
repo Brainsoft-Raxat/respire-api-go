@@ -489,13 +489,6 @@ const docTemplate = `{
                 "summary": "Create a session",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Session ID",
-                        "name": "uid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
                         "description": "Session object that needs to be created",
                         "name": "session",
                         "in": "body",
@@ -515,7 +508,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sessions/by_time/:uid": {
+        "/sessions/by_time/": {
             "get": {
                 "description": "Get a session by user ID and time",
                 "consumes": [
@@ -531,24 +524,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "User ID",
-                        "name": "uid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "name": "count",
+                        "name": "end",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "timestamp",
+                        "name": "id",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "uid",
+                        "name": "period",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start",
                         "in": "query"
                     }
                 ],
@@ -556,7 +547,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/data.GetSessionByUserIDResponse"
+                            "$ref": "#/definitions/data.GetSessionByUserIDAndDateResponse"
                         }
                     }
                 }
@@ -702,15 +693,6 @@ const docTemplate = `{
                     "sessions"
                 ],
                 "summary": "Get a session by user ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "uid",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1215,6 +1197,14 @@ const docTemplate = `{
             "properties": {
                 "session": {
                     "$ref": "#/definitions/models.SmokeSession"
+                }
+            }
+        },
+        "data.GetSessionByUserIDAndDateResponse": {
+            "type": "object",
+            "properties": {
+                "sum": {
+                    "type": "integer"
                 }
             }
         },
