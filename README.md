@@ -7,7 +7,8 @@ This repository is a backend app for our android app.
 
 - [Respire API Go](#respire-api-go)
   - [Table of Contents](#table-of-contents)
-    - [Link to the Mobile app's  source code:](#link-to-the-mobile-apps--source-code)
+    - [Link to the Mobile app's  source code:](#link-to-the-mobile-apps-source-code)
+    - [Link to the AI assistant backend service:](#link-to-tge-ai-assistant-backend-service)
   - [Overview](#overview)
     - [Demo Video](#demo-video)
   - [Technologies](#technologies)
@@ -25,8 +26,10 @@ This repository is a backend app for our android app.
   - [Configuration](#configuration)
   - [Swagger documentation](#swagger-documentation)
 
-### Link to the Mobile app's  source code:
+### Link to the Mobile app's source code:
 https://github.com/aidanakalimbekova/respire-mobile
+### Link to the AI assistant backend service
+https://github.com/Brainsoft-Raxat/respire-ai-assistant-api-py
 
 ## Overview
 
