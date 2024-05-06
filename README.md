@@ -8,7 +8,7 @@ This repository is a backend app for our android app.
 - [Respire API Go](#respire-api-go)
   - [Table of Contents](#table-of-contents)
     - [Link to the Mobile app's  source code:](#link-to-the-mobile-apps-source-code)
-    - [Link to the AI assistant backend service:](#link-to-tge-ai-assistant-backend-service)
+    - [Link to the AI assistant backend service:](#link-to-the-ai-assistant-backend-service)
   - [Overview](#overview)
     - [Demo Video](#demo-video)
   - [Technologies](#technologies)
